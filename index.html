@@ -83,6 +83,23 @@ body {
 <meta name="description" content="///////////////////////////////">
 <style>
 /* Add the CSS styles provided earlier */
+p {
+  font-family: sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #444444;
+  margin: 0;
+}
+
+p a {
+  color: #02f6fa;
+  text-decoration: none;
+}
+
+p a:hover {
+  text-decoration: underline;
+}
+
   </style>
 </head>
 <body>
@@ -96,7 +113,9 @@ body {
 </nav>
 </header>
 <div class="content">
- <a href="https://www.google.com/" target="_blank">Google search with Cl3v3land</a>
+<h2>SECRET CIPHER</h2>                                  <div id="time">Time will be displayed here</div>
+                                                         <div id="day">Day will be displayed here</div>
+ <a href="https://www.google.com/" target="_blank">GOOGLE SEARCH WITH C.L.3.V.3.L.A.N.DKE</a>
 <h3>WIKIPEDIA</h3>
 <p>Wikipedia is a free, multilingual online encyclopedia written and maintained by a community of volunteer contributors through a model of open collaboration, using a wiki-based editing system. It is the largest and most popular general reference work on the internet, with more than 40 million articles in more than 250 different languages.
 Wikipedia was launched on January 15, 2001, by Jimmy Wales and Larry Sanger, and is currently owned by the non-profit Wikimedia Foundation. The name "Wikipedia" is a combination of the words "wiki" (a technology for creating collaborative websites) and "encyclopedia."
@@ -148,7 +167,7 @@ MIT OpenCourseWare is a testament to the power of open education and has inspire
 <div class="contact">
 <h3>Contact Information</h3>
 <p>Email: <a href="mailto:clevelandoa56@mail.com">clevelandoa56@mail.com</a></p>
-<p>Phone: 254754695641</p>
+<p>Phone:KE <a href="tel:+254754695641">Call</a></p>
 <p>Address: 101 Parklands, Nairobi, Kenya</p>
 <p>More contact info: <a href="https://itscleveland.github.io/" target="_blank">itscleveland.github.io</a></p>
 </div>
@@ -163,5 +182,44 @@ MIT OpenCourseWare is a testament to the power of open education and has inspire
 <li><a href="https://www.instagram.com/its_c.l.3.v.3.l.a.n.d._ke/">Instagram</a></li>
 <li><a href="https://www.facebook.com/jayb.xtra">Facebook</a></li>
 <li><a href="https://www.tiktok.com/@its_c.l.3.v.3.l.a.n.d_ke">TikTok</a></li>
+<script>
+window.onload = function() {
+    // Update the time and day when the page loads
+    updateTime();
+    updateDay();
+  }
+
+  // Function to update the time element
+  function updateTime() {
+    const currentTime = new Date();
+    const hours = currentTime.getHours();
+    const minutes = currentTime.getMinutes();
+    const seconds = currentTime.getSeconds();
+    const formattedTime = formatTime(hours, minutes, seconds);
+
+    document.getElementById("time").innerHTML = formattedTime;
+  }
+
+  // Function to update the day element
+  function updateDay() {
+    const currentTime = new Date();
+    const day = currentTime.toLocaleDateString('default', { weekday: 'long' });
+
+    document.getElementById("day").innerHTML = day;
+  }
+
+  // Function to format the time as HH:MM:SS
+  function formatTime(hours, minutes, seconds) {
+    const formattedHours = hours < 10 ? "0" + hours : hours;
+    const formattedMinutes = minutes < 10 ? "0" + minutes : minutes;
+    const formattedSeconds = seconds < 10 ? "0" + seconds : seconds;
+
+    return formattedHours + ":" + formattedMinutes + ":" + formattedSeconds;
+  }
+
+  // Update the time every second
+  setInterval(updateTime, 1000);
+</script>
+
 </body>
 </html>

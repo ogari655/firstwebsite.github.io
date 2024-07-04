@@ -9,6 +9,8 @@ knowledgeBase.set("Tell me a joke", "Why did the scarecrow get promoted? Because
 knowledgeBase.set("What's your name?", "My name is Cleveland!");
 knowledgeBase.set("Goodbye", "Have a great day!");
 
+let lastChatbotMessage = '';
+
 function sendMessage(
 ) {
   const message = document.getElementById('message').value;
@@ -22,13 +24,16 @@ function sendMessage(
 }
 
 function respond(message) {
+  lastChatbotMessage = message;
   conversation.innerHTML += `<label>Cleveland:</label> ${message}<br>`;
 
   // Check if a response already exists in the knowledgeBase
 const existingResponse = knowledgeBase.get(message);
   if (existingResponse) {
     conversation.innerHTML += `<label>Cleveland:</label> ${existingResponse}<br>`;
-  } else {
+  } else if (message === 'How can I help you?') {
+    // Do not ask for user input when the chatbot asks a question first
+} else {
     const userResponse = prompt('Please provide more information or a response for this question: ' + message);
 
     if (userResponse) {

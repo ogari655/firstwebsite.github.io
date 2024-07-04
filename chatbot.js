@@ -33,9 +33,9 @@ const existingResponse = knowledgeBase.get(message);
     conversation.innerHTML += `<label>Cleveland:</label> ${existingResponse}<br>`;
   } else if (message === 'How can I help you?') {
     // Do not ask for user input when the chatbot asks a question first
-} else {
-    const userResponse = prompt('Please provide more information or a response for this question: ' + message);
-
+} else if (message === lastChatbotMessage) {
+    // If the chatbot's last message is the same, prompt the user for more information
+const userResponse = prompt('Please provide more information or a response for this question: ' + message);
     if (userResponse) {
       knowledgeBase.set(message, userResponse);
       conversation.innerHTML += `<label>Cleveland:</label> ${userResponse}<br>`;

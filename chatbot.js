@@ -2,12 +2,16 @@ const conversation = document.getElementById('conversation');
 const knowledgeBase = new Map();
 
 // Populate the knowledgeBase with some initial data
-knowledgeBase.set("Hello", "Hi there!");
-knowledgeBase.set("What can you do?", "I can chat with you!");
-knowledgeBase.set("How are you?", "I'm doing well, thank you for asking!");
-knowledgeBase.set("Tell me a joke", "Why did the scarecrow get promoted? Because he was outstanding in his field!");
-knowledgeBase.set("What's your name?", "My name is Cleveland!");
-knowledgeBase.set("Goodbye", "Have a great day!");
+const initialData = [
+  { question: "Hello", response: "Hi there!" },
+  { question: "What can you do?", response: "I can chat with you!" },
+  { question: "How are you?", response: "I'm doing well, thank you for asking!" },
+  { question: "Tell me a joke", response: "Why did the scarecrow get promoted? Because he was outstanding in his field!" },
+  { question: "What's your name?", response: "My name is Cleveland!" },
+  { question: "Goodbye", response: "Have a great day!" },
+];
+
+initialData.forEach((item) => knowledgeBase.set(item.question, item));
 
 let lastChatbotMessage = '';
 
@@ -23,13 +27,25 @@ function sendMessage(
   }
 }
 
-function respond(message) {
-  lastChatbotMessage = message;
-  conversation.innerHTML += `<label>Cleveland:</label> ${message}<br>`;
+function respond(responseObj) {
+  lastChatbotMessage = responseObj.question;
+  conversation.innerHTML += `<label>Cleveland:</label> ${responseObj.response}<br>`;
 
-  // Check if a response already exists in the knowledgeBase
-const existingResponse = knowledgeBase.get(message);
-  if (existingResponse) {
+  if (responseObj.context) {
+    conversation.innerHTML += `<label>Cleveland:</label> ${responseObj.context}<br>`;
+  }
+
+  if (lastChatbotMessage === responseObj.question) {
+    const userResponse = prompt('Please provide more information or a response for this question: ' + lastChatbotMessage);
+
+    if (userResponse) {
+      const updatedResponse = { ...responseObj, context: userResponse };
+      knowledgeBase.set(lastChatbotMessage, updatedResponse);
+      conversation.innerHTML += `<label>Cleveland:</label> ${userResponse}<br>`;
+    }
+  }
+}
+
     conversation.innerHTML += `<label>Cleveland:</label> ${existingResponse}<br>`;
   } else if (message === 'How can I help you?') {
     // Do not ask for user input when the chatbot asks a question first

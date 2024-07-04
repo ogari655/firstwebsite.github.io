@@ -115,7 +115,25 @@ p a:hover {
 <div class="content">
 <h2>SECRET CIPHER</h2>                                  <div id="time">Time will be displayed here</div>
                                                          <div id="day">Day will be displayed here</div>
- <a href="https://www.google.com/" target="_blank">GOOGLE SEARCH WITH C.L.3.V.3.L.A.N.DKE</a>
+   <title>Button Example</title>
+  <style>
+    button {
+      background-color: #000000;
+    }
+  </style>
+</head>
+<body>
+  <button id="google-btn" type="button"><a href="https://www.google.com/">GOOGLE SEARCH WITH C.L.3.V.3.L.A.N.DKE</a></button>
+
+  <script>
+    document.getElementById("google-btn").addEventListener("click", function() {
+      const url = this.firstElementChild.getAttribute("href");
+      const newWindow = window.open(url, "_blank");
+      if (newWindow) {
+        newWindow.focus();
+      }
+    });
+  </script>
 
   <title>PREMIMIUM CHAT</title>
   <style>

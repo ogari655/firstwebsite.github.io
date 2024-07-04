@@ -17,47 +17,23 @@ function sendMessage(
   if (knowledgeBase.has(message)) {
     respond(knowledgeBase.get(message));
   } else {
-    // Check the user's message and respond accordingly
-if (message === 'Hello') {
-      respond('Hi there!');
-    } else if (message === 'What can you do?') {
-      respond('I can chat with you!');
-    } else if (message === 'How are you?') {
-      respond('I\'m doing well, thank you for asking!');
-    } else if (message === 'Tell me a joke') {
-      respond('Why did the scarecrow get promoted? Because he was outstanding in his field!');
-    } else if (message === 'What\'s your name?') {
-      respond('My name is Cleveland!');
-    } else if (message === 'Goodbye') {
-      respond('Have a great day!');
-    } else {
-      respond('I don\'t understand. Can you ask me something else?');
-    }
+    respond('I don\'t understand. Can you ask me something else?');
   }
 }
 
 function respond(message) {
   conversation.innerHTML += `<label>Cleveland:</label> ${message}<br>`;
 
-  const userResponse = prompt('Please provide more information or a response for this question: ' + message);
+  // Check if a response already exists in the knowledgeBase
+const existingResponse = knowledgeBase.get(message);
+  if (existingResponse) {
+    conversation.innerHTML += `<label>Cleveland:</label> ${existingResponse}<br>`;
+  } else {
+    const userResponse = prompt('Please provide more information or a response for this question: ' + message);
 
-  if (userResponse) {
-    knowledgeBase.set(message, userResponse);
-  }
-}
-
-    } else {
-      respond('I don\'t understand. Can you ask me something else?');
+    if (userResponse) {
+      knowledgeBase.set(message, userResponse);
+      conversation.innerHTML += `<label>Cleveland:</label> ${userResponse}<br>`;
     }
-  }
-}
-
-function respond(message) {
-  conversation.innerHTML += `<label>Cleveland:</label> ${message}<br>`;
-
-  const userResponse = prompt('Please provide more information or a response for this question: ' + message);
-
-  if (userResponse) {
-    knowledgeBase.set(message, userResponse);
   }
 }

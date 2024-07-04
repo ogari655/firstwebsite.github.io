@@ -113,8 +113,33 @@ p a:hover {
 </nav>
 </header>
 <div class="content">
-<h2>SECRET CIPHER</h2>  
+<h2>SECRET CIPHER</h2>              <h3> <title>Greeting Example</title>
+</head>
+<body>
+  <p id="greeting"></p>
+
+  <script>
+    // Get the current time
+    const now = new Date();
+    const hours = now.getHours();
+
+    // Set the greeting based on the current time
+    let greeting;
+
+    if (hours >= 6 && hours < 12) {
+      greeting = "Good morning!";
+    } else if (hours >= 12 && hours < 18) {
+      greeting = "Good afternoon!";
+    } else {
+      greeting = "Good evening!";
+    }
+
+    // Display the greeting in the HTML element
+    document.getElementById("greeting").innerHTML = greeting;
+  </script> </h3>
  
+
+
       <title>Button Example</title>
   <style>
     button {

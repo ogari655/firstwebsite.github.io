@@ -1,17 +1,24 @@
 const conversation = document.getElementById('conversation');
 const knowledgeBase = new Map();
 
-// Populate the knowledgeBase with some initial data
-const initialData = [
-  { question: "Hello", response: "Hi there!" },
-  { question: "What can you do?", response: "I can chat with you!" },
-  { question: "How are you?", response: "I'm doing well, thank you for asking!" },
-  { question: "Tell me a joke", response: "Why did the scarecrow get promoted? Because he was outstanding in his field!" },
-  { question: "What's your name?", response: "My name is Cleveland!" },
-  { question: "Goodbye", response: "Have a great day!" },
-];
+function initializeKnowledgeBase(
+) {
+  const storedData = localStorage.getItem('knowledgeBase');
+  if (storedData) {
+    const storedKnowledgeBase = JSON.parse(storedData);
+    for (const [question, responseObj] of storedKnowledgeBase) {
+      knowledgeBase.set(question, responseObj);
+    }
+  }
+}
 
-initialData.forEach((item) => knowledgeBase.set(item.question, item));
+function updateKnowledgeBase(
+) {
+  const knowledgeBaseJSON = JSON.stringify([...knowledgeBase]);
+  localStorage.setItem('knowledgeBase', knowledgeBaseJSON);
+}
+
+initializeKnowledgeBase();
 
 let lastChatbotMessage = '';
 
@@ -42,8 +49,11 @@ function respond(responseObj) {
       const updatedResponse = { ...responseObj, context: userResponse };
       knowledgeBase.set(lastChatbotMessage, updatedResponse);
       conversation.innerHTML += `<label>Cleveland:</label> ${userResponse}<br>`;
+      updateKnowledgeBase();
     }
   }
+}
+
 }
 
     conversation.innerHTML += `<label>Cleveland:</label> ${existingResponse}<br>`;

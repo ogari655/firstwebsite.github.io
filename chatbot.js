@@ -1,5 +1,6 @@
 const conversation = document.getElementById('conversation');
 const knowledgeBase = new Map();
+const userResponses = {};
 
 // Populate the knowledgeBase with some initial data
 const initialData = [
@@ -30,11 +31,7 @@ function sendMessage(
   const message = document.getElementById('message').value.toLowerCase();
   conversation.innerHTML += `<label>You:</label> ${message}<br>`;
 
-  if (knowledgeBase.has(message)) {
-    respond(knowledgeBase.get(message));
-  } else {
-    respond('I don\'t understand. Can you ask me something else?');
-  }
+  checkUserResponse(message);
 }
 
 function respond(responseObj) {
@@ -43,16 +40,6 @@ function respond(responseObj) {
 
   if (responseObj.context) {
     conversation.innerHTML += `<label>Cleveland:</label> ${responseObj.context}<br>`;
-  }
-
-  if (lastChatbotMessage === responseObj.question) {
-    const userResponse = prompt('Please provide more information or a response for this question: ' + lastChatbotMessage);
-
-    if (userResponse) {
-      const updatedResponse = { ...responseObj, context: userResponse };
-      knowledgeBase.set(lastChatbotMessage, updatedResponse);
-      conversation.innerHTML += `<label>Cleveland:</label> ${userResponse}<br>`;
-    }
   }
 }
 
@@ -66,3 +53,38 @@ question.replace(/e/g, 'a'), // Common typo (e.g., "whats" instead of "what's")
   return variations;
 }
 
+function checkUserResponse(userQuestion) {
+  const lowercaseUserQuestion = userQuestion.toLowerCase();
+
+  if (userResponses[lowercaseUserQuestion]) {
+    respond({ question: lowercaseUserQuestion, response: userResponses[lowercaseUserQuestion] });
+  } else if (knowledgeBase.has(lowercaseUserQuestion)) {
+    respond(knowledgeBase.get(lowercaseUserQuestion));
+  } else {
+    const variations = generateVariations(lowercaseUserQuestion);
+    for (const variation of variations) {
+      const lowercaseVariation = variation.toLowerCase();
+      if (userResponses[lowercaseVariation]) {
+        respond({ question: lowercaseVariation, response: userResponses[lowercaseVariation] });
+        return;
+      }
+      if (knowledgeBase.has(lowercaseVariation)) {
+        respond(knowledgeBase.get(lowercaseVariation));
+        return;
+      }
+    }
+
+    if (lastChatbotMessage === lowercaseUserQuestion) {
+      const userResponse = prompt('Please provide more information or a response for this question: ' + lastChatbotMessage);
+
+      if (userResponse) {
+        const updatedResponse = { ...knowledgeBase.get(lastChatbotMessage), context: userResponse };
+        knowledgeBase.set(lastChatbotMessage, updatedResponse);
+        userResponses[lastChatbotMessage] = userResponse;
+        return;
+      }
+    }
+
+    respond('I don\'t understand. Can you ask me something else?');
+  }
+}
